@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+
+<html lang="sv">
+
+    <head>
+        <title><%= htmlWebpackPlugin.options.title || 'Application'%></title>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <% if (htmlWebpackPlugin.files.favicon) { %>
+        <!-- Add favicon (website/tab icon) -->
+        <link rel="shortcut icon" href="<%= htmlWebpackPlugin.files.favicon%>">
+        <% } %>
+
+        <link href="static/css/style.css" rel="stylesheet" type="text/css"/>
+    </head>
+
+    <body>
+        <% if (htmlWebpackPlugin.options.unsupportedBrowser) { %>
+        <!-- Activates when the browser is not supported -->
+        <style>.unsupported-browser { display: none; }</style>
+        <div class="unsupported-browser">
+            Sorry, your browser is not supported.  Please upgrade to
+            the latest version or switch your browser to use this site.
+            See <a href="http://outdatedbrowser.com/">outdatedbrowser.com</a>
+            for options.
+        </div>
+        <% } %>
+        <div id="root"></div>
+        <% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+        <!-- Include scripts -->
+        <script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+        <% } %>
+    </body>
+
+</html>

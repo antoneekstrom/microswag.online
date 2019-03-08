@@ -1,0 +1,19 @@
+{
+    "presets": [
+        "@babel/preset-env",
+        "@babel/preset-react",
+        "@babel/preset-typescript"
+    ],
+    "plugins": [
+        "@babel/plugin-syntax-dynamic-import"
+    ]
+}
+
+// "plugins": [
+//     ["prismjs", {
+//         "languages": ["java", "css", "markup", "javascript", "typescript", "jsx"],
+//         "plugins": ["line-numbers"],
+//         "theme": "coy",
+//         "css": true
+//     }]
+// ]
