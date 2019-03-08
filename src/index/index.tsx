@@ -3,11 +3,12 @@
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 
-// Component used for dynamically loading in react components
+// Plugin used for dynamically loading in react components
 // This improves initial load times cause the loading can be split up and done asynchronously
 // Components won't be loaded if they aren't being used
 import * as Loadable from 'react-loadable';
 
+// A component that is loaded dynamically as it is rendered.
 const LoadableTest = Loadable({
     loader: () => import(/* webpackChunkName: "components" */'../components/components'),
     loading() {
