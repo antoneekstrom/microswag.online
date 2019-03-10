@@ -3,6 +3,9 @@
 import ReactDOM from 'react-dom';
 import React, { Component } from 'react';
 
+// Import site-wide components
+import * as Components from "../components/components";
+
 // Plugin used for dynamically loading in react components
 // This improves initial load times cause the loading can be split up and done asynchronously
 // Components won't be loaded if they aren't being used
@@ -10,7 +13,7 @@ import * as Loadable from 'react-loadable';
 
 // A component that is loaded dynamically as it is rendered.
 const LoadableTest = Loadable({
-    loader: () => import(/* webpackChunkName: "components" */'../components/components'),
+    loader: () => import(/* webpackChunkName: "testComponent" */'../components/test'),
     loading() {
       return <div>Loading...</div>
     }
@@ -32,7 +35,7 @@ class Application extends Component<any, any> {
     render() {
         return (
             <div>
-                <button onClick={() => this.setState({test: true})}>load component</button>
+                <Components.Button onClick={() => this.setState({test: true})}>load component</Components.Button>
                 { this.state.test ? <LoadableTest/> : <h2>epic</h2> }
             </div>
         );
