@@ -1,0 +1,8 @@
+<body>
+    <div id="root">
+        <div class="page">
+            <nav></nav>
+            <main></main>
+        </div>
+    </div>
+</body>

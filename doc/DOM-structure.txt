@@ -1,0 +1,15 @@
+
+I would like to structure my website in the following way:
+
+For the main containers I want to use flexbox to center them, because they are usually centered in some way. The large containers only have to be centered in one dimension which flex is good at.
+
+ex:
+
+<body>
+    <div id="root">
+        <div class="page">
+            <nav></nav>
+            <main></main>
+        </div>
+    </div>
+</body>

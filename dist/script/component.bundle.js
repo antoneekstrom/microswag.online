@@ -1,4 +1,4 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["testComponent"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["component"],{
 
 /***/ "./src/components/test.tsx":
 /*!*********************************!*\
