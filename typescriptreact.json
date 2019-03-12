@@ -21,7 +21,7 @@
 		"prefix": "component_react",
 		"body": [
 			"export class ${1:Container} extends Component<${2:any}, ${3:any}> {",
-			"\trender () {",
+			"\trender() {",
 			"\t\treturn (",
 			"\t\t\t<div>$0</div>",
 			"\t\t);",

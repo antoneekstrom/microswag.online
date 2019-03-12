@@ -12,11 +12,3 @@ export class Button extends Component<{onClick ?: () => void}, any> {
         );
     }
 }
-
-export class Container extends Component<any, any> {
-    render () {
-        return (
-            <div>epic</div>
-        );
-    }
-}

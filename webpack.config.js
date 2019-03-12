@@ -3,7 +3,7 @@ const htmlWebpackPlugin = require('html-webpack-plugin');
 
 let html = new htmlWebpackPlugin({
     title: 'microswag.online',
-    hash: true,
+    hash: false,
     template: path.resolve(__dirname + "/html/template.html")
 
 });

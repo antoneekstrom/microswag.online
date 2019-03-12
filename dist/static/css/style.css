@@ -1,10 +1,12 @@
 
 :root {
 
-    /* most common colors */
+    /* background colors */
     --color-background-primary: white;
     --color-background-secondary: rgb(231, 226, 226);
-    --color-background-highlight: rgb(74, 73, 110);
+
+    /* general colors */
+    --color-highlight: rgb(255, 129, 81);
 
     /* text color */
     --color-font-primary: rgb(33, 32, 62);
@@ -16,10 +18,15 @@
 
     /* measurements */
     --value-width-content: 80%;
-    --value-rounding: 0.5em;
+    --value-height-hero: 30rem;
+    --value-rounding: 0.2em;
     --value-margin-button: 0.2em;
-    --value-padding-button: 0.2em;
-    --value-padding-button-sides: 0.5em;
+
+    --value-padding-button: 0.35em;
+    --value-padding-button-sides: 1.2em;
+    --value-padding-highlight: 0.1em;
+
+    --value-border: 0.2rem;
 
     /* fonts */
     --font-title: "Playfair Display";
@@ -38,16 +45,38 @@ h1 {
     font-size: 3rem;
 }
 
+h1.large {
+    font-size: 5rem;
+}
+
 h2 {
     color: var(--color-font-primary);
     font-family: var(--font-subtitle);
     font-size: 2rem;
 }
 
+h3 {
+    color: var(--color-font-primary);
+    font-family: var(--font-subtitle);
+    font-size: 1.5rem;
+}
+
 p {
     color: var(--color-font-primary);
     font-family: var(--font-small);
     font-size: 1rem;
+}
+
+span.highlight {
+    color: var(--color-highlight);
+    font-family: var(--font-title);
+
+    border-radius: var(--value-rounding);
+    padding: var(--value-padding-highlight);
+}
+
+img.wide {
+    height: var(--value-height-hero);
 }
 
 .centered {
@@ -57,9 +86,12 @@ p {
     flex-direction: column;
 }
 
+div.centered > main {
+    width: var(--value-width-content);
+}
+
 /* The base style for any link. */
 .link {
-
 }
 
 /* The base style for any button. */
@@ -67,7 +99,7 @@ p {
     font-family: var(--font-small);
     font-size: 1.5rem;
 
-    background-color: var(--color-background-highlight);
+    background-color: var(--color-highlight);
     color: var(--color-font-secondary);
 
     padding: var(--value-padding-button);
@@ -78,11 +110,18 @@ p {
     border-radius: var(--value-rounding);
 
     cursor: pointer;
+
+    transition: all 0.2s ease-out;
 }
 
 .button:hover {
-    color: var(--color-background-highlight);
+    color: var(--color-highlight);
     background-color: var(--color-background-secondary);
+
+    padding: calc(var(--value-padding-button) + 0.1em);
+    padding-left: calc(var(--value-padding-button-sides) + 0.1em);
+    padding-right: calc(var(--value-padding-button-sides) + 0.1em);
+    margin: calc(var(--value-margin-button) - 0.1em);
 }
 
 .button.active {
