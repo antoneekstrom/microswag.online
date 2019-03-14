@@ -18,13 +18,14 @@
 
     /* measurements */
     --value-width-content: 80%;
-    --value-height-hero: 30rem;
+    --value-height-hero: 20rem;
     --value-rounding: 0.2em;
     --value-margin-button: 0.2em;
 
     --value-padding-button: 0.35em;
     --value-padding-button-sides: 1.2em;
     --value-padding-highlight: 0.1em;
+    --value-dot-size: 0.6em;
 
     --value-border: 0.2rem;
 
@@ -43,6 +44,8 @@ h1 {
     color: var(--color-font-primary);
     font-family: var(--font-title);
     font-size: 3rem;
+
+    word-wrap: break-word;
 }
 
 h1.large {
@@ -73,10 +76,24 @@ span.highlight {
 
     border-radius: var(--value-rounding);
     padding: var(--value-padding-highlight);
+}''
+
+div.image-slide.image-container {
+    height: var(--value-height-hero);
+    overflow: hidden;
 }
 
-img.wide {
-    height: var(--value-height-hero);
+div.image.wide, img.wide {
+    width: 100%;
+    height: 100%;
+
+    background-size: cover;
+    background-position: center;
+
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-direction: column;
 }
 
 .centered {
@@ -88,6 +105,10 @@ img.wide {
 
 div.centered > main {
     width: var(--value-width-content);
+}
+
+main {
+    margin-bottom: 8rem;
 }
 
 /* The base style for any link. */
@@ -124,10 +145,25 @@ div.centered > main {
     margin: calc(var(--value-margin-button) - 0.1em);
 }
 
-.button.active {
-
-}
+.button.active {}
 
 button.button {
     border: none;
+}
+
+.button.dot {
+    border-radius: 100%;
+    background-color: var(--color-background-secondary);
+
+    padding: var(--value-dot-size);
+    margin: var(--value-margin-button);
+}
+
+.button.dot:hover {
+    padding: var(--value-dot-size);
+    margin: var(--value-margin-button);
+}
+
+.button.dot.active {
+    background-color: var(--color-highlight);
 }

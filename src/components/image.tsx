@@ -47,9 +47,30 @@ export class Image {
     }
 }
 
-export class Hero extends ImageComponent {
-    getClassName() {
-        return super.getClassName() + ' wide';
+export class Hero extends Component<{src : string}, any> {
+    getClassName() : string {
+        return 'image wide';
+    }
+    getStyle() {
+        return {
+            backgroundImage: `url("${this.props.src}")`
+        };
+    }
+    render() {
+        return (
+            <div style={this.getStyle()} className={this.getClassName()}>{this.props.children}</div>
+        );
+    }
+}
+
+export class SelectionDot extends Component<{onClick : () => void, active : boolean}, any> {
+    onClick() {
+        this.props.onClick();
+    }
+    render() {
+        return (
+            <button onClick={() => this.onClick()} className={`button dot ${this.props.active ? 'active' : ''}`}></button>
+        );
     }
 }
 
@@ -67,6 +88,10 @@ export class ImageSlide extends Component<{images : Image[]}, {currentImage : Im
         return this.props.images;
     }
 
+    getImage(imageIdentifier : string | number) : Image {
+        return this.getImages().find((val, i) => imageIdentifier == val.getTitle() || imageIdentifier == i);
+    }
+
     /**
      * Select an image to display.
      * @param imageIdentifier either a title or index to identify the image by.
@@ -74,7 +99,7 @@ export class ImageSlide extends Component<{images : Image[]}, {currentImage : Im
     selectImage(imageIdentifier : string | number) : void {
 
         // find an image that matches the identifier in some way.
-        let newImage = this.getImages().find((val, i) => imageIdentifier == val.getTitle() || imageIdentifier == i);
+        let newImage = this.getImage(imageIdentifier);
 
         if (newImage != undefined || newImage != this.state.currentImage)
         this.setState({currentImage: newImage});
@@ -94,22 +119,29 @@ export class ImageSlide extends Component<{images : Image[]}, {currentImage : Im
         this.selectImage(nextIndex < 0 ? this.props.images.length - 1 : nextIndex);
     }
 
-    render() {
-        // Use map to get the component from every image object and add them into a new array.
-        // let images = this.getImages().map((img, i) => {
-        //     return <Hero key={i} alt={img.getAlt()} src={img.getSource()} />
-        // });
+    isButtonActive(imageIdentifier : string | number) : boolean {
+        return this.getImage(imageIdentifier) == this.state.currentImage;
+    }
 
-        let image = <Hero src={this.state.currentImage.getSource()} alt={this.state.currentImage.getAlt()}/>;
+    getButtons() : JSX.Element[] {
+        let buttons = this.props.images.map((img, i) => {
+            return <SelectionDot key={i} onClick={() => this.selectImage(i)} active={this.isButtonActive(i)}/>;
+        });
+
+        return buttons;
+    }
+
+    render() {
 
         return (
             <div className="image-slide">
-                <div className="image-slide image-container">{image}</div>
-                <h3>{this.state.currentImage.getTitle()}</h3>
+                <div className="image-slide image-container">
 
-                <div className="image-slide buttons">
-                    <Components.Button onClick={() => this.nextImage()}>next</Components.Button>
-                    <Components.Button onClick={() => this.previousImage()}>previous</Components.Button>
+                    <Hero src={this.state.currentImage.getSource()}>
+                        <h1>{this.state.currentImage.getTitle()}</h1>
+                        <div className="image-slide buttons">{this.getButtons()}</div>
+                    </Hero>
+                    
                 </div>
             </div>
         );
@@ -118,6 +150,6 @@ export class ImageSlide extends Component<{images : Image[]}, {currentImage : Im
 
 export default class HeroSlide extends Component<any, any> {
     render() {
-        return <ImageSlide images={getHeroImages()} />;
+        return <ImageSlide images={getHeroImages()}/>;
     }
 }
