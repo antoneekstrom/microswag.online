@@ -1,4 +1,16 @@
-(window["webpackJsonp"] = window["webpackJsonp"] || []).push([["component"],{
+(window["webpackJsonp"] = window["webpackJsonp"] || []).push([[0],{
+
+/***/ "./src/components/dynamic/slide.jsx":
+/*!******************************************!*\
+  !*** ./src/components/dynamic/slide.jsx ***!
+  \******************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _image__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../image */ \"./src/components/image.tsx\");\n\n/* harmony default export */ __webpack_exports__[\"default\"] = (_image__WEBPACK_IMPORTED_MODULE_0__[\"default\"]);\n\n//# sourceURL=webpack:///./src/components/dynamic/slide.jsx?");
+
+/***/ }),
 
 /***/ "./src/components/image.tsx":
 /*!**********************************!*\

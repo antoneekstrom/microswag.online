@@ -2,8 +2,8 @@
 :root {
 
     /* background colors */
-    --color-background-primary: white;
-    --color-background-secondary: rgb(231, 226, 226);
+    --color-background-primary: rgb(255, 255, 255);
+    --color-background-secondary: rgb(243, 243, 243);
 
     /* general colors */
     --color-highlight: rgb(255, 129, 81);
@@ -19,13 +19,18 @@
     /* measurements */
     --value-width-content: 80%;
     --value-height-hero: 20rem;
-    --value-rounding: 0.2em;
+    --value-rounding: 0.25em;
     --value-margin-button: 0.2em;
 
-    --value-padding-button: 0.35em;
-    --value-padding-button-sides: 1.2em;
+    --value-padding-very-small: 0.55em;
+    --value-padding-small: 1.5em;
+    --value-padding-medium: 2.3em;
+    --value-padding-button: 0.15em;
+    --value-padding-button-sides: 1em;
     --value-padding-highlight: 0.1em;
-    --value-dot-size: 0.6em;
+    --value-dot-size: 0.4em;
+
+    --value-transition-duration: 0.2s;
 
     --value-border: 0.2rem;
 
@@ -58,6 +63,10 @@ h2 {
     font-size: 2rem;
 }
 
+h2.secondary {
+    color: var(--color-font-secondary);
+}
+
 h3 {
     color: var(--color-font-primary);
     font-family: var(--font-subtitle);
@@ -70,13 +79,25 @@ p {
     font-size: 1rem;
 }
 
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+ul li {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
 span.highlight {
     color: var(--color-highlight);
     font-family: var(--font-title);
 
     border-radius: var(--value-rounding);
     padding: var(--value-padding-highlight);
-}''
+}
 
 div.image-slide.image-container {
     height: var(--value-height-hero);
@@ -94,6 +115,26 @@ div.image.wide, img.wide {
     justify-content: center;
     align-items: flex-end;
     flex-direction: column;
+
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: 100%;
+    grid-template-areas: "text" "buttons";
+}
+
+div.image-slide.text-container {
+    margin-right: 2em;
+}
+
+div.sliding-container.hidden {
+    transform: translateX(-25%);
+    opacity: 0;
+}
+
+div.sliding-container {
+    transition-timing-function: ease-out;
+    transition-duration: 1.5s;
+    transition-property: all; 
 }
 
 .centered {
@@ -103,16 +144,78 @@ div.image.wide, img.wide {
     flex-direction: column;
 }
 
-div.centered > main {
+div.content {
     width: var(--value-width-content);
 }
 
 main {
-    margin-bottom: 8rem;
+    margin-bottom: 4rem;
+}
+
+div.navigation-bar {
+    background-color: var(--color-highlight);
+    padding: var(--value-padding-very-small);
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+
+    height: 3em;
+    transition: all 0.5s;
+}
+
+div.navigation-expand-menu > ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    margin-top: 0.5em;
+
+    background-color: var(--color-background-primary);
+    border-radius: var(--value-rounding);
+}
+
+div.navigation-expand-menu > ul button.link.navigation.active {
+    color: var(--color-font-secondary);
+    background-color: var(--color-highlight);
+}
+
+div.navigation-expand-menu > ul button.link.navigation {
+    color: var(--color-highlight);
+}
+
+div.navigation-bar.expanded {
+    height: 10em;
+}
+
+div.navigation-inner {
+    height: 100%;
+    overflow: hidden;
+}
+
+div.navigation-bar > div.navigation-logo > h2 {
+    padding: 0;
+    margin: 0;
+}
+
+div.navigation-bar > nav {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.button.link.navigation.active {
+    background-color: var(--color-background-primary);
+    color: var(--color-highlight);
 }
 
 /* The base style for any link. */
-.link {
+.button.link {
+    background: none;
+    color: var(--color-font-secondary);
+    font-weight: bold;
 }
 
 /* The base style for any button. */
@@ -123,6 +226,8 @@ main {
     background-color: var(--color-highlight);
     color: var(--color-font-secondary);
 
+    font-weight: bold;
+
     padding: var(--value-padding-button);
     padding-left: var(--value-padding-button-sides);
     padding-right: var(--value-padding-button-sides);
@@ -132,20 +237,18 @@ main {
 
     cursor: pointer;
 
-    transition: all 0.2s ease-out;
+    transition: all var(--value-transition-duration) ease-out;
 }
 
 .button:hover {
     color: var(--color-highlight);
     background-color: var(--color-background-secondary);
 
+    margin: calc(var(--value-margin-button) - 0.1em);
     padding: calc(var(--value-padding-button) + 0.1em);
     padding-left: calc(var(--value-padding-button-sides) + 0.1em);
     padding-right: calc(var(--value-padding-button-sides) + 0.1em);
-    margin: calc(var(--value-margin-button) - 0.1em);
 }
-
-.button.active {}
 
 button.button {
     border: none;
@@ -153,17 +256,45 @@ button.button {
 
 .button.dot {
     border-radius: 100%;
-    background-color: var(--color-background-secondary);
+    background-color: var(--color-background-primary);
 
     padding: var(--value-dot-size);
     margin: var(--value-margin-button);
 }
 
-.button.dot:hover {
-    padding: var(--value-dot-size);
-    margin: var(--value-margin-button);
-}
-
-.button.dot.active {
+.button.dot:hover, .button.dot.active {
     background-color: var(--color-highlight);
+    transform: scale(1.15);
+}
+
+div.card-container {
+    background-color: var(--color-background-secondary);
+    padding: var(--value-padding-small);
+
+    border-radius: var(--value-rounding);
+
+    height: 20rem;
+}
+
+div.card {
+    background-color: var(--color-highlight);
+    padding: var(--value-padding-small);
+
+    border-radius: var(--value-rounding);
+
+    cursor: default;
+
+    max-width: 20%;
+    height: 55%;
+
+    transition: transform var(--value-transition-duration);
+}
+
+div.card:hover {
+    transform: scale(1.05);
+}
+
+div.card > h2 {
+    color: var(--color-font-active);
+    margin: 0;
 }

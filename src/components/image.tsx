@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as Components from './components';
 
 import { getHeroImages } from '../content/content';
+import { Centered } from './containers';
 
 /**
  * A react component that renders an image.
@@ -53,7 +54,7 @@ export class Hero extends Component<{src : string}, any> {
     }
     getStyle() {
         return {
-            backgroundImage: `url("${this.props.src}")`
+            backgroundImage: `linear-gradient(90deg, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.7)), url("${this.props.src}")`
         };
     }
     render() {
@@ -74,13 +75,28 @@ export class SelectionDot extends Component<{onClick : () => void, active : bool
     }
 }
 
-export class ImageSlide extends Component<{images : Image[]}, {currentImage : Image}> {
+export class ImageSlide extends Component<{images : Image[], slideTimer ?: number}, {currentImage : Image}> {
+
+    timerID : any;
 
     constructor(props) {
         super(props);
 
         this.state = {
             currentImage: this.props.images[0]
+        }
+    }
+
+    componentDidMount() {
+        if (this.props.slideTimer) {
+            this.timerID = setInterval(() => this.nextImage(),
+            this.props.slideTimer);
+        }
+    }
+
+    componentWillUnmount() {
+        if (this.timerID) {
+            clearInterval(this.timerID);
         }
     }
 
@@ -138,8 +154,13 @@ export class ImageSlide extends Component<{images : Image[]}, {currentImage : Im
                 <div className="image-slide image-container">
 
                     <Hero src={this.state.currentImage.getSource()}>
-                        <h1>{this.state.currentImage.getTitle()}</h1>
-                        <div className="image-slide buttons">{this.getButtons()}</div>
+                        <Centered justify="flex-end" className="image-slide text-container">
+                            <h1>{this.state.currentImage.getTitle()}</h1>
+                        </Centered>
+                        
+                        <Centered className="image-slide button-container">
+                            <div className="image-slide buttons">{this.getButtons()}</div>
+                        </Centered>
                     </Hero>
                     
                 </div>
@@ -150,6 +171,6 @@ export class ImageSlide extends Component<{images : Image[]}, {currentImage : Im
 
 export default class HeroSlide extends Component<any, any> {
     render() {
-        return <ImageSlide images={getHeroImages()}/>;
+        return <ImageSlide slideTimer={8000} images={getHeroImages()}/>;
     }
 }
