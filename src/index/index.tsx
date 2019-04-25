@@ -8,6 +8,7 @@ import { Page, Main, Content } from '../components/containers';
 
 import * as Routing from "../routing/routing";
 import { HomePage, OtherPage } from '../content/pages';
+import { NavigationBar } from '../components/navigation';
 
 
 export const pages : Routing.PageMap = {
@@ -40,7 +41,12 @@ class Application extends Component<any, {page : JSX.Element}> {
     }
 
     render() {
-        return <Page page={this.state.page} />;
+        return (
+            <div>
+                <NavigationBar paths={this.pages} />
+                <Page page={this.state.page} />
+            </div>
+        );
     }
 }
 

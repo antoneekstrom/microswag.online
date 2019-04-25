@@ -50,16 +50,16 @@ export class Image {
 
 export class Hero extends Component<{src : string}, any> {
     getClassName() : string {
-        return 'image wide';
-    }
-    getStyle() {
-        return {
-            backgroundImage: `linear-gradient(90deg, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.7)), url("${this.props.src}")`
-        };
+        return 'hero';
     }
     render() {
         return (
-            <div style={this.getStyle()} className={this.getClassName()}>{this.props.children}</div>
+            <div className={this.getClassName()}>
+                <img src={this.props.src} />
+                <div className="hero-inner-container">
+                    {this.props.children}
+                </div>
+            </div>
         );
     }
 }
@@ -151,8 +151,6 @@ export class ImageSlide extends Component<{images : Image[], slideTimer ?: numbe
 
         return (
             <div className="image-slide">
-                <div className="image-slide image-container">
-
                     <Hero src={this.state.currentImage.getSource()}>
                         <Centered justify="flex-end" className="image-slide text-container">
                             <h1>{this.state.currentImage.getTitle()}</h1>
@@ -162,8 +160,6 @@ export class ImageSlide extends Component<{images : Image[], slideTimer ?: numbe
                             <div className="image-slide buttons">{this.getButtons()}</div>
                         </Centered>
                     </Hero>
-                    
-                </div>
             </div>
         );
     }

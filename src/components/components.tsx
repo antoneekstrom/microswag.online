@@ -88,9 +88,11 @@ export class CardContainer extends Component<any, any> {
             <MediaQuery query="(max-width: 550px)">
             {
                 (matches) => {
-                    return <Centered justify="space-evenly" align="center" direction={matches ? "column" : "row"} className="card-container">
-                        {this.props.children}
-                    </Centered>
+                    return (
+                        <Centered justify="space-evenly" align="center" direction={matches ? "column" : "row"} className="card-container">
+                            {this.props.children}
+                        </Centered>
+                    );
                 }
             }
             </MediaQuery>
@@ -121,8 +123,5 @@ export class Paragraph extends Component<any, any> {
     }
 }
 
-import { Button } from "./buttons";
 import { NavigationComponent } from "./navigation";
 import { Centered } from './containers';
-
-export { Button };

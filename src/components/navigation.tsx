@@ -1,6 +1,6 @@
 
 import React, { Component } from 'react';
-import { Button, Link } from './buttons';
+import { Button, LinkButton } from './buttons';
 import * as Components from "../components/components";
 import Resources from "../content/resources";
 import * as Routing from '../routing/routing';
@@ -83,7 +83,7 @@ export class NavigationBar extends Component<{paths : Routing.PageMap}, {expande
         // Displayed if the navigation buttons do not fit on the screen
         const Expand = () => (
             <div className="navigation-expand-menu">
-                <Components.Button onClick={() => this.toggle()}>Expand</Components.Button>
+                <LinkButton onClick={() => this.toggle()}>Expand</LinkButton>
                 <NavigationComponent paths={this.props.paths}></NavigationComponent>
             </div>
         );
@@ -130,7 +130,7 @@ class NavButton extends Component<{path : string, onClick ?: () => void, current
 
     render() {
         return (
-            <Link active={this.isActive()} className={`navigation`} onClick={() => this.onClick()} >{this.props.children}</Link>
+            <LinkButton active={this.isActive()} className={`navigation`} onClick={() => this.onClick()} >{this.props.children}</LinkButton>
         );
     }
 }

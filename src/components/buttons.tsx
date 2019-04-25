@@ -13,7 +13,7 @@ export class Button extends Component<{onClick ?: () => void, className ?: strin
     }
 }
 
-export class Link extends Component<{onClick ?: () => void, className ?: string, active ?: any}, any> {
+export class LinkButton extends Component<{onClick ?: () => void, className ?: string, active ?: any}, any> {
     onClick() {
         if (this.props.onClick)
         this.props.onClick();
