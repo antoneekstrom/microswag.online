@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Centered } from './containers';
 
 export class Button extends Component<{onClick ?: () => void, className ?: string, active ?: any}, any> {
     
@@ -9,6 +10,16 @@ export class Button extends Component<{onClick ?: () => void, className ?: strin
     render() {
         return (
             <button onClick={() => this.onClick()} className={`button${this.props.active ? " active" : ""} ${this.props.className || ""}`}>{this.props.children}</button>
+        );
+    }
+}
+
+export class IconButton extends Component<{icon : string, onClick ?: () => void, className ?: string}, any> {
+    render() {
+        return (
+            <Centered className={this.props.className}>
+                <i onClick={this.props.onClick} className="material-icons">{this.props.icon}</i>
+            </Centered>
         );
     }
 }

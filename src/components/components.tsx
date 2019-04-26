@@ -123,5 +123,16 @@ export class Paragraph extends Component<any, any> {
     }
 }
 
+export class PopupContainer extends Component<{isActive : boolean, className ?: string}, any> {
+    render() {
+        console.log("render");
+        return (
+            <div className={`popup-container${this.props.isActive ? " active" : ""}${this.props.className ? " " + this.props.className : ""}`}>
+                {this.props.children}
+            </div>
+        );
+    }
+}
+
 import { NavigationComponent } from "./navigation";
 import { Centered } from './containers';

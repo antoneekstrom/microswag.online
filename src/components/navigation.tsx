@@ -1,10 +1,11 @@
 
 import React, { Component } from 'react';
-import { Button, LinkButton } from './buttons';
+import { Button, LinkButton, IconButton } from './buttons';
 import * as Components from "../components/components";
 import Resources from "../content/resources";
 import * as Routing from '../routing/routing';
 import MediaQuery from 'react-responsive';
+import { ThemeSwitcher } from './themes';
 
 /**
  * The navigation component contains the buttons which are used navigate.
@@ -76,6 +77,7 @@ export class NavigationBar extends Component<{paths : Routing.PageMap}, {expande
         // The normal navigation bar that is shown in the header
         const Bar = () => (
             <nav>
+                <ThemeSwitcher/>
                 <NavigationComponent paths={this.props.paths}></NavigationComponent>
             </nav>
         );
@@ -83,8 +85,8 @@ export class NavigationBar extends Component<{paths : Routing.PageMap}, {expande
         // Displayed if the navigation buttons do not fit on the screen
         const Expand = () => (
             <div className="navigation-expand-menu">
-                <LinkButton onClick={() => this.toggle()}>Expand</LinkButton>
-                <NavigationComponent paths={this.props.paths}></NavigationComponent>
+                <IconButton className="navigation-expand-button" icon="menu" onClick={() => this.toggle()} />
+                <NavigationComponent paths={this.props.paths}/>
             </div>
         );
 

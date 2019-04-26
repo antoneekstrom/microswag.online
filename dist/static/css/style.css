@@ -194,6 +194,13 @@ div.navigation-inner {
     overflow: hidden;
 }
 
+div.navigation-inner > nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
 div.navigation-bar > div.navigation-logo > h2 {
     padding: 0;
     margin: 0;
@@ -204,6 +211,36 @@ div.navigation-bar > nav {
     display: flex;
     justify-content: flex-start;
     align-items: center;
+}
+
+i.material-icons {
+    cursor: pointer;
+    padding: 0.35rem;
+    border-radius: 100%;
+
+    color: var(--color-highlight);
+    font-size: 2rem;
+
+    transition: 0.4s background-color;
+}
+
+i.material-icons:hover {
+    background-color: var(--color-background-secondary);
+}
+
+div.popup-container {
+    display: none;
+    position: absolute;
+}
+
+div.popup-container.active {
+    display: initial;
+    background-color: var(--color-highlight);
+
+}
+
+div.navigation-expand-button {
+    height: 3em;
 }
 
 /* The base style for any link. */
