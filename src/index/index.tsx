@@ -13,7 +13,9 @@ import { NavigationBar } from '../components/navigation';
 
 export const pages : Routing.PageMap = {
     "home": <HomePage/>,
-    "boule": <OtherPage/>
+    "boule": <OtherPage/>,
+    "poo": <HomePage/>,
+    "pee": <HomePage/>
 }
 
 /**
@@ -38,6 +40,7 @@ class Application extends Component<any, {page : JSX.Element}> {
 
     componentWillMount() {
         this.router = new Routing.Router(this.pages, (page) => this.setState({page: page}), "home");
+        this.router.setPage("home");
     }
 
     render() {

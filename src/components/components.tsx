@@ -123,12 +123,14 @@ export class Paragraph extends Component<any, any> {
     }
 }
 
-export class PopupContainer extends Component<{isActive : boolean, className ?: string}, any> {
+export class PopupContainer extends Component<{isActive : boolean, outerChildren ?: JSX.Element, className ?: string}, any> {
     render() {
-        console.log("render");
         return (
-            <div className={`popup-container${this.props.isActive ? " active" : ""}${this.props.className ? " " + this.props.className : ""}`}>
-                {this.props.children}
+            <div className="popup-outer-container">
+                {this.props.outerChildren}
+                <div className={`popup-container${this.props.isActive ? " active" : ""}${this.props.className ? " " + this.props.className : ""}`}>
+                    {this.props.children}
+                </div>
             </div>
         );
     }

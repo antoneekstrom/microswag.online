@@ -29,8 +29,6 @@ export class SlideContainer extends Component<{side ?: string}, {visible : boole
 
     componentDidMount() {
 
-        console.log(this.ref);
-
         this.observer = new IntersectionObserver((entries, observer) => {
             const e = entries[0];
             if (!e) return;

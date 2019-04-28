@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Centered } from './containers';
 
-export class Button extends Component<{onClick ?: () => void, className ?: string, active ?: any}, any> {
+export class Button extends Component<{onClick ?: () => void, className ?: string, active ?: any, style ?: React.CSSProperties}, any> {
     
     onClick() {
         if (this.props.onClick) this.props.onClick();
@@ -9,7 +9,7 @@ export class Button extends Component<{onClick ?: () => void, className ?: strin
 
     render() {
         return (
-            <button onClick={() => this.onClick()} className={`button${this.props.active ? " active" : ""} ${this.props.className || ""}`}>{this.props.children}</button>
+            <button style={this.props.style} onClick={() => this.onClick()} className={`button${this.props.active ? " active" : ""} ${this.props.className || ""}`}>{this.props.children}</button>
         );
     }
 }

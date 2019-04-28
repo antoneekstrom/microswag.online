@@ -6,7 +6,7 @@
     --color-background-secondary: rgb(243, 243, 243);
 
     /* general colors */
-    --color-highlight: rgb(255, 129, 81);
+    --color-highlight: rgb(54, 137, 247);
 
     /* text color */
     --color-font-primary: rgb(33, 32, 62);
@@ -39,6 +39,10 @@
 body {
     margin: 0;
     padding: 0;
+
+    background-color: var(--color-background-primary);
+
+    transition: color, background-color var(--value-transition-duration) ease-out;
 }
 
 h1 {
@@ -191,7 +195,6 @@ div.navigation-bar.expanded {
 
 div.navigation-inner {
     height: 100%;
-    overflow: hidden;
 }
 
 div.navigation-inner > nav {
@@ -229,18 +232,50 @@ i.material-icons:hover {
 }
 
 div.popup-container {
+    background-color: var(--color-background-primary);
+    border-radius: var(--value-rounding);
+    box-shadow: 0.1rem;
+
+    padding: var(--value-padding-very-small);
+
     display: none;
     position: absolute;
+    z-index: 100;
+
+    top: 4.5rem;
+    left: 0;
 }
 
 div.popup-container.active {
     display: initial;
-    background-color: var(--color-highlight);
+}
 
+div.popup-outer-container {
+    position: relative;
 }
 
 div.navigation-expand-button {
     height: 3em;
+}
+
+.theme-switcher-inner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+button.button.color-palette {
+    padding: var(--value-padding-very-small);
+    margin: var(--value-margin-button);
+    border-radius: 100%;
+}
+
+button.button.color-palette:hover {
+    padding: var(--value-padding-very-small);
+    margin: var(--value-margin-button);
+
+    transform: scale(1.15);
 }
 
 /* The base style for any link. */
@@ -274,6 +309,8 @@ div.navigation-expand-button {
     border-radius: var(--value-rounding);
 
     cursor: pointer;
+
+    outline: none;
 
     transition: all var(--value-transition-duration) ease-out;
 }
