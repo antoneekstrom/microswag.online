@@ -40,10 +40,10 @@ export const pinkPalette : Palette = {
 }
 
 export const yellowPalette : Palette = {
-    highlight: "rgb(255, 211, 79)",
-    backgroundPrimary: "rgb(53, 53, 53)",
-    backgroundSecondary: "rgb(89, 89, 89)",
-    font: "rgb(242, 242, 242)"
+    highlight: "rgb(42, 42, 42)",
+    backgroundPrimary: "rgb(240, 200, 60)",
+    backgroundSecondary: "rgb(255, 215, 84)",
+    font: "rgb(42, 42, 42)"
 }
 
 /**
@@ -131,7 +131,7 @@ export class ThemeSwitcher extends Component<{palettes : Palette[]}, {active : b
     render() {
         return (
             <div className="theme-switcher">
-                <Components.PopupContainer outerChildren={<LinkButton active={this.state.active} onClick={() => this.onClick()}>theme</LinkButton>} isActive={this.state.active}>
+                <Components.PopupContainer outerChildren={<IconButton icon="color_lens" active={this.state.active} onClick={() => this.onClick()}/>} isActive={this.state.active}>
                     <ul>
                         <Components.Header>Palettes</Components.Header>
                         <this.Buttons palettes={this.props.palettes} />

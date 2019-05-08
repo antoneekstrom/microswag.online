@@ -14,11 +14,11 @@ export class Button extends Component<{onClick ?: () => void, className ?: strin
     }
 }
 
-export class IconButton extends Component<{icon : string, onClick ?: () => void, className ?: string}, any> {
+export class IconButton extends Component<{icon : string, onClick ?: () => void, className ?: string, active ?: boolean}, any> {
     render() {
         return (
             <Centered className={this.props.className}>
-                <i onClick={this.props.onClick} className="material-icons">{this.props.icon}</i>
+                <i onClick={this.props.onClick} className={`material-icons${this.props.active ? " active" : ""}`}>{this.props.icon}</i>
             </Centered>
         );
     }

@@ -104,13 +104,32 @@ export class CardContainer extends Component<any, any> {
  * A card that is meant to display additional information.
  * This information should not be important and should be hidden when it does not fit.
  */
-export class Card extends Component<{title : string}, any> {
+export class Card extends Component<any, any> {
     render() {
         return (
-            <div className="card">
-                <h2>{this.props.title}</h2>
-                <h3>{this.props.children}</h3>
-            </div>
+            <Hidden className="card" minWidth={NAV_WIDTH_BREAKPOINT}>{this.props.children}</Hidden>
+        );
+    }
+}
+
+/**
+ * Float text to the left so that it can be next to additional content like cards which are floated to the right.
+ */
+export class FloatLeft extends Component<any, any> {
+    render() {
+        return (
+            <div style={{float: "left"}}>{this.props.children}</div>
+        );
+    }
+}
+
+/**
+ * Container that is hidden when the width of the browser is under a certain breakpoint.
+ */
+export class Hidden extends Component<{minWidth : string, className ?: string}, any> {
+    render() {
+        return (
+            <MediaQuery query={`(min-width: ${this.props.minWidth})`}>{(matches) => <div className={this.props.className} style={{display: matches ? "inherit" : "none"}}>{this.props.children}</div>}</MediaQuery>
         );
     }
 }
@@ -136,5 +155,5 @@ export class PopupContainer extends Component<{isActive : boolean, outerChildren
     }
 }
 
-import { NavigationComponent } from "./navigation";
+import { NavigationComponent, NAV_WIDTH_BREAKPOINT } from "./navigation";
 import { Centered } from './containers';

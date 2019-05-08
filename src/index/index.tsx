@@ -13,9 +13,7 @@ import { NavigationBar } from '../components/navigation';
 
 export const pages : Routing.PageMap = {
     "home": <HomePage/>,
-    "boule": <OtherPage/>,
-    "poo": <HomePage/>,
-    "pee": <HomePage/>
+    "boule": <OtherPage/>
 }
 
 /**

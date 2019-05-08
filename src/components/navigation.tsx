@@ -7,6 +7,9 @@ import * as Routing from '../routing/routing';
 import MediaQuery from 'react-responsive';
 import { ThemeSwitcher, THEMES } from './themes';
 
+export const NAV_WIDTH_BREAKPOINT = "620px";
+const DEFAULT_NAV_HEIGHT = "3em";
+
 /**
  * The navigation component contains the buttons which are used navigate.
  * The NavigationComponent is used in NavigationBar which puts the buttons in a header on top of the page.
@@ -72,6 +75,24 @@ export class NavigationBar extends Component<{paths : Routing.PageMap}, {expande
         });
     }
 
+    getStyle() {
+
+        let e = document.querySelector<HTMLElement>(".navigation-expand-menu");
+        let height;
+
+        if (e) {
+            let h = e.offsetHeight;
+            height = `${h}px`;
+        }
+        else {
+            height = DEFAULT_NAV_HEIGHT;
+        }
+
+        return {
+            height: this.state.expanded ? height : DEFAULT_NAV_HEIGHT
+        }
+    }
+
     render() {
 
         // The normal navigation bar that is shown in the header
@@ -88,19 +109,20 @@ export class NavigationBar extends Component<{paths : Routing.PageMap}, {expande
         const Expand = () => (
             <div className="navigation-expand-menu">
                 <IconButton className="navigation-expand-button" icon="menu" onClick={() => this.toggle()} />
+                <ThemeSwitcher palettes={THEMES} />
                 <NavigationComponent paths={this.props.paths}/>
             </div>
         );
 
         return (
-            <div className={`navigation-bar${this.state.expanded ? " expanded" : ""}`}>
+            <div style={this.getStyle()} className={`navigation-bar${this.state.expanded ? " expanded" : ""}`}>
 
                 <div className="navigation-logo">
                     <Components.Header secondary>{Resources.siteName}</Components.Header>
                 </div>
 
                 <div className={`navigation-inner${this.state.expanded ? " expanded" : ""}`}>
-                    <MediaQuery query="(max-width: 550px)">
+                    <MediaQuery query={`(max-width: ${NAV_WIDTH_BREAKPOINT})`}>
                         { (matches) => {return matches ? <Expand/> : <Bar/>;} }
                     </MediaQuery>
                 </div>

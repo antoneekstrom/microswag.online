@@ -27,7 +27,12 @@ export class HomePage extends Component<any, any> {
                     <Components.Title>Spela boule nu med det samma?</Components.Title>
                     <Components.Header>
                         Jag tycker att du borde spela boule. Nu.
-                        </Components.Header>
+                    </Components.Header>
+
+                    <Components.Card>
+                        <h2>boule</h2>
+                        <p>I like to bynk it bynk it, I like to bynk it bynk it. pee</p>
+                    </Components.Card>
                 </Content>
             </Main>
         );

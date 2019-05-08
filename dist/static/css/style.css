@@ -189,10 +189,6 @@ div.navigation-expand-menu > ul {
     border-radius: var(--value-rounding);
 }
 
-div.navigation-bar.expanded {
-    height: 10em;
-}
-
 div.navigation-inner {
     height: 100%;
 }
@@ -358,9 +354,7 @@ div.card {
     border-radius: var(--value-rounding);
 
     cursor: default;
-
-    max-width: 20%;
-    height: 55%;
+    float: right;
 
     transition: transform var(--value-transition-duration);
 }
