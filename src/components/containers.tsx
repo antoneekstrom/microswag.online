@@ -32,14 +32,15 @@ export class Content extends Component<any, any> {
     }
 }
 
-export class Centered extends Component<{align ?: any, justify ?: any, direction ?: any, className ?: string}, any> {
+export class Centered extends Component<{align ?: any, justify ?: any, direction ?: any, className ?: string, style ?: React.CSSProperties}, any> {
 
     getStyle() {
         return {
             display: "flex",
             alignItems: this.props.align ? this.props.align : "center",
             justifyContent: this.props.justify ? this.props.justify : "center",
-            flexDirection: this.props.direction ? this.props.direction : "column"
+            flexDirection: this.props.direction ? this.props.direction : "column",
+            ...this.props.style
         };
     }
     

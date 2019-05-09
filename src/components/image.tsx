@@ -4,18 +4,44 @@ import * as Components from './components';
 import { getHeroImages } from '../content/content';
 import { Centered } from './containers';
 
+import MediaQuery from 'react-responsive';
+
+export const ALIGN_LEFT = "left", ALIGN_RIGHT = "right";
+
 /**
  * A react component that renders an image.
+ * An image can be aligned to the left or right to make space for other content.
+ * This additional content can be by added as children.
  */
-export class ImageComponent extends Component<{src : string, alt : string}, any> {
-
-    getClassName() {
-        return '';
-    }
-
+export class ImageComponent extends Component<{src : string, alt : string, width ?: string, align ?: string}, any> {
     render() {
         return (
-            <img className={this.getClassName()} alt={this.props.alt} src={this.props.src}/>
+            <MediaQuery query="(max-width: 500px)">
+            {
+                (matches) => {
+
+                    let align = this.props.align == ALIGN_RIGHT ? true : false;
+
+                    let children = this.props.children;
+                    let Content = (props) => (
+                        <React.Fragment>
+                            <img style={{width: this.props.width, order: align ? 2 : 0}} className={`image-component ${align ? 'right' : 'left'}`} alt={this.props.alt} src={this.props.src}/>
+                            {children}
+                        </React.Fragment>
+                    );
+
+                    let Mobile = (props) => <Centered direction="column" className="image-container">
+                        <Content/>
+                    </Centered>;
+
+                    let Desktop = (props) => <Centered direction="row" justify={align ? 'flex-end' : 'flex-start'} className="image-container">
+                        <Content/>
+                    </Centered>;
+
+                    return matches ? <Mobile/> : <Desktop/>;
+                }
+            }
+            </MediaQuery>
         );
     }
 }

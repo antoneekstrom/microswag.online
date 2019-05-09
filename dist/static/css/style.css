@@ -76,7 +76,7 @@ h3 {
 p {
     color: var(--color-font-primary);
     font-family: var(--font-small);
-    font-size: 1rem;
+    font-size: 1.5rem;
 }
 
 ul {
@@ -99,9 +99,21 @@ span.highlight {
     padding: var(--value-padding-highlight);
 }
 
+div.image-container {
+    width: 100%;
+}
+
 div.image-slide.image-container {
     height: var(--value-height-hero);
     overflow: hidden;
+}
+
+img.image-component.left {
+    padding-right: var(--value-padding-medium);
+}
+
+img.image-component.right {
+    padding-left: var(--value-padding-medium);
 }
 
 div.hero {

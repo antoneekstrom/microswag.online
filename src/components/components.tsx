@@ -113,17 +113,6 @@ export class Card extends Component<any, any> {
 }
 
 /**
- * Float text to the left so that it can be next to additional content like cards which are floated to the right.
- */
-export class FloatLeft extends Component<any, any> {
-    render() {
-        return (
-            <div style={{float: "left"}}>{this.props.children}</div>
-        );
-    }
-}
-
-/**
  * Container that is hidden when the width of the browser is under a certain breakpoint.
  */
 export class Hidden extends Component<{minWidth : string, className ?: string}, any> {
