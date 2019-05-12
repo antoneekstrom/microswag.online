@@ -1,9 +1,11 @@
 
 // React
-import React, { Component, Suspense } from 'react';
-import * as Components from './components';
-import { LinkButton, IconButton, Button } from './buttons';
-import { Centered } from './containers';
+import React, { Component } from 'react';
+import { IconButton, Button } from './buttons';
+import { PopupContainer, Heading } from './components';
+
+// palettes are color presets for the website
+// when applying a palette you are changing CSS variables which affect the whole site
 
 /**
  * A palette contains css style properties that can be applied to the page.
@@ -12,37 +14,51 @@ export interface Palette {
     highlight : string;
     backgroundPrimary : string;
     backgroundSecondary : string;
+    backgroundDark : string;
     font : string;
+}
+
+/**
+ * The default palette, if the user switch back to the normal one.
+ */
+export const defaultPalette : Palette = {
+    highlight: "rgb(54, 137, 247)",
+    backgroundPrimary: "rgb(255, 255, 255)",
+    backgroundSecondary: "rgb(235, 235, 235)",
+    backgroundDark: "rgb(214, 214, 214)",
+    font: "rgb(33, 32, 62)"
 }
 
 /**
  * A dark palette.
  */
 export const darkPalette : Palette = {
-    highlight: "rgb(255, 129, 81)",
-    backgroundPrimary: "rgb(69, 69, 69)",
-    backgroundSecondary: "rgb(82, 82, 82)",
+    highlight: "rgb(255, 155, 68)",
+    backgroundPrimary: "rgb(71, 71, 71)",
+    backgroundSecondary: "rgb(51, 51, 51)",
+    backgroundDark: "rgb(43, 43, 43)",
     font: "white"
 }
 
-export const defaultPalette : Palette = {
-    highlight: "rgb(54, 137, 247)",
-    backgroundPrimary: "rgb(255, 255, 255)",
-    backgroundSecondary: "rgb(243, 243, 243)",
-    font: "rgb(33, 32, 62)"
-}
-
+/**
+ * Pink. Nice.
+ */
 export const pinkPalette : Palette = {
     highlight: "rgb(244, 88, 145)",
-    backgroundPrimary: "rgb(255, 204, 223)",
-    backgroundSecondary: "rgb(255, 221, 234)",
+    backgroundPrimary: "rgb(255, 221, 234)",
+    backgroundSecondary: "rgb(255, 204, 223)",
+    backgroundDark: "rgb(235, 194, 205)",
     font: "rgb(45, 39, 42)"
 }
 
+/**
+ * Yellow. EPIC
+ */
 export const yellowPalette : Palette = {
     highlight: "rgb(42, 42, 42)",
-    backgroundPrimary: "rgb(240, 200, 60)",
-    backgroundSecondary: "rgb(255, 215, 84)",
+    backgroundPrimary: "rgb(255, 215, 84)",
+    backgroundSecondary: "rgb(240, 200, 60)",
+    backgroundDark: "rgb(225, 190, 45)",
     font: "rgb(42, 42, 42)"
 }
 
@@ -53,6 +69,7 @@ export const PROPERTIES : Palette = {
     highlight: "--color-highlight",
     backgroundPrimary: "--color-background-primary",
     backgroundSecondary: "--color-background-secondary",
+    backgroundDark: "--color-background-dark",
     font: "--color-font-primary"
 }
 
@@ -70,10 +87,9 @@ export const THEMES : Palette[] = [
 export function setPalette(p : Palette) {
     let root = document.documentElement;
 
-    root.style.setProperty(PROPERTIES.backgroundPrimary, p.backgroundPrimary);
-    root.style.setProperty(PROPERTIES.backgroundSecondary, p.backgroundSecondary);
-    root.style.setProperty(PROPERTIES.highlight, p.highlight);
-    root.style.setProperty(PROPERTIES.font, p.font);
+    for (const property in PROPERTIES) {
+        root.style.setProperty(PROPERTIES[property], p[property]);
+    }
 }
 
 /**
@@ -102,7 +118,7 @@ export class PaletteButton extends Component<{palette : Palette}, any> {
 }
 
 /**
- * A 
+ * A button which brings up a popup that contains different palette buttons.
  */
 export class ThemeSwitcher extends Component<{palettes : Palette[]}, {active : boolean}> {
     constructor(props) {
@@ -113,9 +129,16 @@ export class ThemeSwitcher extends Component<{palettes : Palette[]}, {active : b
     }
 
     onClick() {
+        // the "active" state is forwarded as a prop to the PopupContainer component
+        // when the state changes, it also changes the prop in the popup and hides/shows it.
+        // the button in the PopupContainers "outerChildren" prop is what changes this state.
         this.setState({active: !this.state.active});
     }
 
+    /**
+     * Produces a PaletteButton for each palette
+     * @param props the palettes to choose from
+     */
     Buttons(props : {palettes : Palette[]}) : JSX.Element {
         let buttons : JSX.Element[] = [];
 
@@ -131,12 +154,12 @@ export class ThemeSwitcher extends Component<{palettes : Palette[]}, {active : b
     render() {
         return (
             <div className="theme-switcher">
-                <Components.PopupContainer outerChildren={<IconButton icon="color_lens" active={this.state.active} onClick={() => this.onClick()}/>} isActive={this.state.active}>
+                <PopupContainer outerChildren={<IconButton icon="color_lens" active={this.state.active} onClick={() => this.onClick()}/>} isActive={this.state.active}>
                     <ul>
-                        <Components.Header>Palettes</Components.Header>
+                        <Heading>{this.props.children || "Themes"}</Heading>
                         <this.Buttons palettes={this.props.palettes} />
                     </ul>
-                </Components.PopupContainer>
+                </PopupContainer>
             </div>
         );
     }

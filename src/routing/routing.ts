@@ -107,6 +107,7 @@ export class Router {
      * 
      * @param pages the pages to map routes to
      * @param pageConsumer the consumer which receives pages when they are routed to
+     * @param fallbackRoute the route that will be used if the current one is invalid for some reason
      */
     constructor(pages : PageMap, pageConsumer : ElementConsumer, fallbackRoute : string) {
         this.pages = pages;
@@ -119,6 +120,11 @@ export class Router {
         observePage(this.pageObserver);
     }
 
+    /**
+     * Get the page for a certain route.
+     * @param route the route
+     * @returns the page
+     */
     getRoutePage(route : string) : JSX.Element {
         return this.pages[route];
     }

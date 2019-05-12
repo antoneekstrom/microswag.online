@@ -3,6 +3,10 @@
 import React, { Component, Suspense } from 'react';
 import MediaQuery from 'react-responsive';
 
+// this file pretty much just contains a whole lot of components were
+// most of them are barely just wrappers for normal html elements.
+// creating all these useless classes was dumb and I'm not doing it again
+
 /**
  * An element that is shown in place of content that has not been loaded yet.
  */
@@ -19,13 +23,13 @@ export class Loading extends Component<any, any> {
 /**
  * A large h1 element that is used for the main title of the current content on the page.
  */
-export class Title extends Component<{large ?: any}, any> {
+export class Title extends Component<{large ?: any, id ?: string}, any> {
     getClassName() : string {
-        return this.props.large ? 'large' : '';
+        return `${this.props.large ? 'large' : ''}${this.props.id ? ' has-id' : ''}`;
     }
     render() {
         return (
-            <h1 className={this.getClassName()}>{this.props.children}</h1>
+            <h1 id={this.props.id} className={this.getClassName()}>{this.props.children}</h1>
         );
     }
 }
@@ -33,7 +37,7 @@ export class Title extends Component<{large ?: any}, any> {
 /**
  * A header is a lesser title that should be used before subsections or as subtitles.
  */
-export class Header extends Component<{secondary ?: any}, any> {
+export class Heading extends Component<{secondary ?: any}, any> {
     render() {
         return (
             <h2 className={this.props.secondary ? "secondary" : ""}>{this.props.children}</h2>
@@ -53,6 +57,17 @@ export class Highlight extends Component<any, any> {
 }
 
 /**
+ * Boldens text.
+ */
+export class Bold extends Component<any, any> {
+    render() {
+        return (
+            <span className="bold">{this.props.children}</span>
+        );
+    }
+}
+
+/**
  * This is a sort of wrapper element for using the dynamic import functionality.
  * 
  * @arg component the path to the component
@@ -65,9 +80,9 @@ export class LoadContainer extends Component<{component : string, loadingCompone
     constructor(props) {
         super(props);
 
-        const comp : string = `${this.props.component}`;
+        const comp : string = this.props.component;
 
-        this.loadElement = React.lazy(() => import(/* webpackChunkName: "[request]" */`../components/dynamic/${comp}`));
+        this.loadElement = React.lazy(() => import(/* webpackChunkName: "[request]" */`../dynamic/${comp}`));
     }
     
     render() {
@@ -75,39 +90,6 @@ export class LoadContainer extends Component<{component : string, loadingCompone
             <Suspense fallback={this.props.loadingComponent}>
                 <this.loadElement/>
             </Suspense>
-        );
-    }
-}
-
-/**
- * Should be used to contain Card components.
- */
-export class CardContainer extends Component<any, any> {
-    render() {
-        return (
-            <MediaQuery query="(max-width: 550px)">
-            {
-                (matches) => {
-                    return (
-                        <Centered justify="space-evenly" align="center" direction={matches ? "column" : "row"} className="card-container">
-                            {this.props.children}
-                        </Centered>
-                    );
-                }
-            }
-            </MediaQuery>
-        );
-    }
-}
-
-/**
- * A card that is meant to display additional information.
- * This information should not be important and should be hidden when it does not fit.
- */
-export class Card extends Component<any, any> {
-    render() {
-        return (
-            <Hidden className="card" minWidth={NAV_WIDTH_BREAKPOINT}>{this.props.children}</Hidden>
         );
     }
 }
@@ -123,6 +105,9 @@ export class Hidden extends Component<{minWidth : string, className ?: string}, 
     }
 }
 
+/**
+ * A paragraph.
+ */
 export class Paragraph extends Component<any, any> {
     render() {
         return (
@@ -131,18 +116,60 @@ export class Paragraph extends Component<any, any> {
     }
 }
 
+/**
+ * A container that is displayed floating over other elements.
+ * 
+ * @param isActive if the popup is visible
+ * @param outerChildren children in the base of the popup, these are always visible
+ * @param className additional classes for the popup container
+ * @param children the items which are put inside the popup
+ */
 export class PopupContainer extends Component<{isActive : boolean, outerChildren ?: JSX.Element, className ?: string}, any> {
     render() {
         return (
             <div className="popup-outer-container">
                 {this.props.outerChildren}
-                <div className={`popup-container${this.props.isActive ? " active" : ""}${this.props.className ? " " + this.props.className : ""}`}>
-                    {this.props.children}
+                <div className="popup-container-wrapper">
+                    <div className={`popup-container${this.props.isActive ? " active" : ""}${this.props.className ? " " + this.props.className : ""}`}>
+                        {this.props.children}
+                    </div>
                 </div>
             </div>
         );
     }
 }
 
-import { NavigationComponent, NAV_WIDTH_BREAKPOINT } from "./navigation";
-import { Centered } from './containers';
+/**
+ * Empty spacing.
+ */
+export class Spacing extends Component<{height : string}, any> {
+    render() {
+        return (
+            <div style={{height: this.props.height}}></div>
+        );
+    }
+}
+
+/**
+ * A list.
+ */
+export class List extends Component<any, any> {
+    render() {
+        return (
+            <ul className="list">
+               {this.props.children} 
+            </ul>
+        );
+    }
+}
+
+/**
+ * An item in a list.
+ */
+export class Item extends Component<any, any> {
+    render() {
+        return (
+            <li className="list-item"><Paragraph>{this.props.children}</Paragraph></li>
+        );
+    }
+}

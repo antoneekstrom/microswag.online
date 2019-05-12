@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
-import * as Components from './components';
 
-import { getHeroImages } from '../content/content';
 import { Centered } from './containers';
 
 import MediaQuery from 'react-responsive';
+import { CONTENT_WIDTH_BREAKPOINT } from './navigation';
 
+
+// components relating to images
+
+// alignments
 export const ALIGN_LEFT = "left", ALIGN_RIGHT = "right";
 
 /**
@@ -13,30 +16,49 @@ export const ALIGN_LEFT = "left", ALIGN_RIGHT = "right";
  * An image can be aligned to the left or right to make space for other content.
  * This additional content can be by added as children.
  */
-export class ImageComponent extends Component<{src : string, alt : string, width ?: string, align ?: string}, any> {
+export class ImageComponent extends Component<{src : string, alt : string, width ?: string, align ?: string, imageClass ?: string}, any> {
+
+    constructor(props) {
+        super(props);
+    }
+    
     render() {
+        // this method is a mess
         return (
-            <MediaQuery query="(max-width: 500px)">
+            <MediaQuery query={`(max-width: ${CONTENT_WIDTH_BREAKPOINT})`}>
             {
                 (matches) => {
 
+                    // true means right and false means left
+                    // turns the alignment string into a boolean
                     let align = this.props.align == ALIGN_RIGHT ? true : false;
 
                     let children = this.props.children;
                     let Content = (props) => (
                         <React.Fragment>
-                            <img style={{width: this.props.width, order: align ? 2 : 0}} className={`image-component ${align ? 'right' : 'left'}`} alt={this.props.alt} src={this.props.src}/>
+                            <img style={{width: !matches ? this.props.width : "100%", order: align && !matches ? 2 : 0}} className={`image-component ${this.props.imageClass || ''} ${align ? 'right' : 'left'}`} alt={this.props.alt} src={this.props.src}/>
                             {children}
                         </React.Fragment>
                     );
 
-                    let Mobile = (props) => <Centered direction="column" className="image-container">
-                        <Content/>
-                    </Centered>;
+                    const containerClass = `image-container ${matches ? "mobile" : "desktop"}`;
 
-                    let Desktop = (props) => <Centered direction="row" justify={align ? 'flex-end' : 'flex-start'} className="image-container">
-                        <Content/>
-                    </Centered>;
+                    // two different containers depending on browser width
+                    // changes from horizontal alignment to vertical on smaller devices
+
+                    let Mobile = (props) => {
+                        return (
+                            <Centered direction="column" className={containerClass}>
+                                <Content/>
+                            </Centered>
+                        );
+                    };
+
+                    let Desktop = (props) => (
+                        <Centered direction="row" justify={align ? 'flex-end' : 'flex-start'} className={containerClass}>
+                            <Content/>
+                        </Centered>
+                    );
 
                     return matches ? <Mobile/> : <Desktop/>;
                 }
@@ -55,6 +77,8 @@ export class ImageComponent extends Component<{src : string, alt : string, width
  */
 export class Image {
 
+    // specifying scope keywords before constructor arguments automatically stores them as variables with that scope inside the class
+    // this is a handy feature in typescript that I should be using more often
     constructor(private src : string, private title : string, private alt : string) {}
 
     getComponent(key ?: any) : JSX.Element {
@@ -74,6 +98,9 @@ export class Image {
     }
 }
 
+/**
+ * A wide "hero" image.
+ */
 export class Hero extends Component<{src : string}, any> {
     getClassName() : string {
         return 'hero';
@@ -90,6 +117,10 @@ export class Hero extends Component<{src : string}, any> {
     }
 }
 
+/**
+ * A button on the image slideshow that represents an image.
+ * It is highlighted if the image is currently showing, otherwise you can click it to change to another image.
+ */
 export class SelectionDot extends Component<{onClick : () => void, active : boolean}, any> {
     onClick() {
         this.props.onClick();
@@ -101,19 +132,27 @@ export class SelectionDot extends Component<{onClick : () => void, active : bool
     }
 }
 
-export class ImageSlide extends Component<{images : Image[], slideTimer ?: number}, {currentImage : Image}> {
+/**
+ * A slideshow of images that can change on a set interval. It also has buttons for choosing which image is being displayed.
+ * 
+ * @param showText Set if the title of the image should be shown. It kind of looks weird therefore there is a parameter to disable it
+ */
+export class ImageSlide extends Component<{images : Image[], slideTimer ?: number, showText ?: boolean}, {currentImage : Image}> {
 
     timerID : any;
 
     constructor(props) {
         super(props);
 
+        // currently shown image is stored in state
+        // changing this rerenders the component and shows the image automatically
         this.state = {
             currentImage: this.props.images[0]
         }
     }
 
     componentDidMount() {
+        // set a timer which changes the image on an interval
         if (this.props.slideTimer) {
             this.timerID = setInterval(() => this.nextImage(),
             this.props.slideTimer);
@@ -121,15 +160,23 @@ export class ImageSlide extends Component<{images : Image[], slideTimer ?: numbe
     }
 
     componentWillUnmount() {
+        // remove the timer when the component is removed
         if (this.timerID) {
             clearInterval(this.timerID);
         }
     }
 
+    /**
+     * Get the images.
+     */
     getImages() : Image[] {
         return this.props.images;
     }
 
+    /**
+     * Get an image.
+     * @param imageIdentifier an identifier for the image. This can either be the index in the slideshow or the title of the image
+     */
     getImage(imageIdentifier : string | number) : Image {
         return this.getImages().find((val, i) => imageIdentifier == val.getTitle() || imageIdentifier == i);
     }
@@ -147,27 +194,43 @@ export class ImageSlide extends Component<{images : Image[], slideTimer ?: numbe
         this.setState({currentImage: newImage});
     }
 
+    /**
+     * Get the index of the current image
+     */
     getCurrentIndex() {
         return this.getImages().indexOf(this.state.currentImage);
     }
 
+    /**
+     * Show the next image.
+     */
     nextImage() {
         let nextIndex = this.getCurrentIndex() + 1;
         this.selectImage(nextIndex >= this.props.images.length ? 0 : nextIndex);
     }
 
+    /**
+     * Show the previous image.
+     */
     previousImage() {
         let nextIndex = this.getCurrentIndex() - 1;
         this.selectImage(nextIndex < 0 ? this.props.images.length - 1 : nextIndex);
     }
 
-    isButtonActive(imageIdentifier : string | number) : boolean {
+    /**
+     * Determines if an image is currently being shown.
+     * @param imageIdentifier the identifier of that image
+     */
+    isImageActive(imageIdentifier : string | number) : boolean {
         return this.getImage(imageIdentifier) == this.state.currentImage;
     }
 
+    /**
+     * Creates an array of buttons were each of the correspond to an image
+     */
     getButtons() : JSX.Element[] {
         let buttons = this.props.images.map((img, i) => {
-            return <SelectionDot key={i} onClick={() => this.selectImage(i)} active={this.isButtonActive(i)}/>;
+            return <SelectionDot key={i} onClick={() => this.selectImage(i)} active={this.isImageActive(i)}/>;
         });
 
         return buttons;
@@ -175,24 +238,22 @@ export class ImageSlide extends Component<{images : Image[], slideTimer ?: numbe
 
     render() {
 
+        let TextContainer = (props) => (
+            <Centered justify="flex-end" className="image-slide text-container">
+                <h1>{this.state.currentImage.getTitle()}</h1>
+            </Centered>
+        );
+
         return (
             <div className="image-slide">
                     <Hero src={this.state.currentImage.getSource()}>
-                        <Centered justify="flex-end" className="image-slide text-container">
-                            <h1>{this.state.currentImage.getTitle()}</h1>
-                        </Centered>
+                        {this.props.showText == undefined || this.props.showText == true ? <TextContainer/> : undefined}
                         
-                        <Centered className="image-slide button-container">
+                        <Centered style={{gridArea: "buttons"}} className="image-slide button-container">
                             <div className="image-slide buttons">{this.getButtons()}</div>
                         </Centered>
                     </Hero>
             </div>
         );
-    }
-}
-
-export default class HeroSlide extends Component<any, any> {
-    render() {
-        return <ImageSlide slideTimer={8000} images={getHeroImages()}/>;
     }
 }

@@ -3,7 +3,8 @@
 
     /* background colors */
     --color-background-primary: rgb(255, 255, 255);
-    --color-background-secondary: rgb(243, 243, 243);
+    --color-background-secondary: rgb(235, 235, 235);
+    --color-background-dark: rgb(214, 214, 214);
 
     /* general colors */
     --color-highlight: rgb(54, 137, 247);
@@ -14,7 +15,7 @@
 
     /* measurements */
     --value-width-content: 80%;
-    --value-height-hero: 20rem;
+    --value-height-hero: 30rem;
     --value-rounding: 0.25em;
     --value-margin-button: 0.2em;
 
@@ -40,9 +41,11 @@ body {
     margin: 0;
     padding: 0;
 
-    background-color: var(--color-background-primary);
+    background-color: var(--color-background-secondary);
 
     transition: color, background-color var(--value-transition-duration) ease-out;
+
+    overflow-x: hidden;
 }
 
 h1 {
@@ -99,8 +102,38 @@ span.highlight {
     padding: var(--value-padding-highlight);
 }
 
+span.bold {
+    font-weight: bold;
+}
+
+img.image-component.animated {
+    transition: transform, opacity, 3.5s cubic-bezier(0.23, 1, 0.320, 1);
+    opacity: 0;
+}
+
+img.image-component.animated.left {
+    transform: translateX(-20rem);
+}
+
+img.image-component.animated.right {
+    transform: translateX(20rem);
+}
+
+img.image-component.animated.visible {
+    transform: translateX(0);
+    opacity: 1;
+}
+
 div.image-container {
     width: 100%;
+}
+
+div.image-container.mobile {
+    width: var(--value-width-content);
+}
+
+div.image-container.desktop div.text-container {
+    padding: var(--value-padding-medium);
 }
 
 div.image-slide.image-container {
@@ -108,17 +141,11 @@ div.image-slide.image-container {
     overflow: hidden;
 }
 
-img.image-component.left {
-    padding-right: var(--value-padding-medium);
-}
-
-img.image-component.right {
-    padding-left: var(--value-padding-medium);
-}
-
 div.hero {
     position: relative;
-    height: var(--value-height-hero);
+    z-index: 5;
+
+    max-height: var(--value-height-hero);
     width: 100%;
     overflow: hidden;
 }
@@ -135,30 +162,10 @@ div.hero > img {
     width: 100%;
     height: 100%;
 
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-    flex-direction: column;
-
     display: grid;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto 15%;
     grid-template-columns: 100%;
     grid-template-areas: "text" "buttons";
-}
-
-div.image-slide.text-container {
-    margin-right: 2em;
-}
-
-div.sliding-container.hidden {
-    transform: translateX(-25%);
-    opacity: 0;
-}
-
-div.sliding-container {
-    transition-timing-function: ease-in-out;
-    transition-duration: 1.5s;
-    transition-property: all; 
 }
 
 .centered {
@@ -172,13 +179,11 @@ div.content {
     width: var(--value-width-content);
 }
 
-main {
-    margin-bottom: 4rem;
-}
-
 div.navigation-bar {
     background-color: var(--color-background-primary);
     padding: var(--value-padding-very-small);
+
+    overflow: hidden;
 
     display: flex;
     justify-content: space-between;
@@ -189,7 +194,14 @@ div.navigation-bar {
     transition: all 0.5s;
 }
 
-div.navigation-expand-menu > ul {
+div.navigation-bar-outer {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0px 4px 15px -1px rgba(25, 25, 25, 0.45);
+}
+
+.navigation-expand-menu > ul {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -197,7 +209,6 @@ div.navigation-expand-menu > ul {
 
     margin-top: 0.5em;
 
-    background-color: var(--color-background-primary);
     border-radius: var(--value-rounding);
 }
 
@@ -205,7 +216,7 @@ div.navigation-inner {
     height: 100%;
 }
 
-div.navigation-inner > nav {
+div.navigation-inner > nav.navigation-menu {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -218,7 +229,7 @@ div.navigation-bar > div.navigation-logo > h2 {
     color: var(--color-highlight);
 }
 
-div.navigation-bar > nav {
+div.navigation-bar > nav.navigation-menu {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -232,6 +243,8 @@ i.material-icons {
     color: var(--color-highlight);
     font-size: 2rem;
 
+    user-select: none;
+
     transition: 0.4s background-color;
 }
 
@@ -242,24 +255,27 @@ i.material-icons:hover {
 div.popup-container {
     background-color: var(--color-background-primary);
     border-radius: var(--value-rounding);
-    box-shadow: 0.1rem;
+    box-shadow: 0px 4px 15px -1px rgba(25, 25, 25, 0.45);
 
     padding: var(--value-padding-very-small);
 
-    display: none;
     position: absolute;
     z-index: 100;
 
-    top: 4.5rem;
+    top: 0;
     left: 0;
+
+    transform: scale(0);
+    transition: transform var(--value-transition-duration) ease-in-out;
 }
 
 div.popup-container.active {
     display: initial;
+    transform: scale(1);
 }
 
-div.popup-outer-container {
-    position: relative;
+div.popup-container-wrapper {
+    position: absolute;
 }
 
 div.navigation-expand-button {
@@ -287,10 +303,15 @@ button.button.color-palette:hover {
 }
 
 /* The base style for any link. */
-.button.link {
-    background: none;
+.link {
     color: var(--color-highlight);
+}
+
+.button.link {
+    color: var(--color-highlight);
+    background: none;
     font-weight: bold;
+    text-decoration: none;
 }
 
 .button.link.active {
@@ -350,32 +371,19 @@ button.button {
     transform: scale(1.15);
 }
 
-div.card-container {
-    background-color: var(--color-background-secondary);
+footer {
+    background-color: var(--color-background-dark);
+    padding: var(--value-padding-very-small);
+}
+
+.list-item {
+    display: initial;
+}
+
+.grid-item {
     padding: var(--value-padding-small);
-
-    border-radius: var(--value-rounding);
-
-    height: 20rem;
 }
 
-div.card {
-    background-color: var(--color-highlight);
-    padding: var(--value-padding-small);
-
-    border-radius: var(--value-rounding);
-
-    cursor: default;
-    float: right;
-
-    transition: transform var(--value-transition-duration);
-}
-
-div.card:hover {
-    transform: scale(1.05);
-}
-
-div.card > h2 {
-    color: var(--color-background-primary);
-    margin: 0;
+.content-list {
+    margin-top: 4rem;
 }

@@ -1,7 +1,9 @@
 
 import * as Loadable from 'react-loadable';
+import React from 'react';
 
-import React, { Component } from 'react';
+// things for loading content dynamically
+
 
 // Plugin used for dynamically loading in react components
 // This improves initial load times cause the loading can be split up and done asynchronously
