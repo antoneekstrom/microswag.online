@@ -168,7 +168,7 @@ export class CatSecondPage extends Component<any, {ids : string[]}> {
         return (
             <div className="content-list">
                 <Heading>Innehåll</Heading>
-                {props.ids.map(id => <Item><AnchorButton id={id}>{id}</AnchorButton></Item>)}
+                {props.ids.map(id => <Item key={id}><AnchorButton id={id}>{id}</AnchorButton></Item>)}
             </div>
         );
     }
@@ -293,7 +293,7 @@ export class CatSecondPage extends Component<any, {ids : string[]}> {
                             <div className="text-container">
                                 <Paragraph>
                                     Det finns också väldigt stora katter, som ändå inte är överviktiga. Dessa katter är mycket farliga om man
-                                    möter dem utomhus i vildmarken, men det finns och sådana som är ganska snälla tror jag.
+                                    möter dem utomhus i vildmarken, men det finns också sådana som är ganska snälla tror jag.
                                 </Paragraph>
                                 
                                 <Heading>Statistik</Heading>
