@@ -18,6 +18,13 @@ module.exports = {
         filename: 'script/[name].bundle.js'
     },
     plugins: [html],
+    devServer: {
+        contentBase: path.join(__dirname, 'dist'),
+        publicPath: '/static',
+        watchContentBase: true,
+        compress: true,
+        port: 8080
+    },
     module: {
         rules: [
             {
